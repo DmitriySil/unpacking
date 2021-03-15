@@ -11,11 +11,37 @@ public class Unpack {
 
     private static int count=0;
     private static int count2=0;
+    private static int counterBracket1=0;
+    private static int counterBracket2=0;
     private static String finalText = "";
     private static final List<String> list = new ArrayList<>();
 
 
         public static void split(String text) {
+
+            String validity = text.replaceAll("[A-Za-z0-9\\[\\]]","");
+            String[] strArr = {"\\[", "\\]"};
+            for (int i = 0; i < strArr.length; i++) {
+                Pattern p = Pattern.compile(strArr[i]);
+                Matcher m = p.matcher(text);
+                switch (i%2){
+                    case 0: while (m.find()){ counterBracket1++; }
+                    case 1: while (m.find()){ counterBracket2++; }
+                }
+                if (counterBracket1!=counterBracket2){
+                    System.out.println("Invalid bracket");
+                    return;
+                }
+            }
+            if (validity.length()>0){
+                System.out.println(validity +" Invalid char");
+                return;
+            }
+            Pattern pattern1 = Pattern.compile("а-я");
+            Matcher matcher1 = pattern1.matcher(text);
+            if (matcher1.find()) {
+
+            }
             //сборка финального текста
             if (text.equals("")){
                 for (String s : list) {
@@ -111,8 +137,9 @@ public class Unpack {
 
     public static void main(String[] args) {
 
-       // String text = "3[xy]xx2[xx]2[xy]";
+     // String text = "3[xy]xx2[xx]2[xy]";
         String text = "2[3[x]y]xy2[2[yy]x]";
+
         System.out.println(text + " Original text");
 
         split(text);
