@@ -1,7 +1,6 @@
 package unpackingString;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +16,7 @@ public class Unpack {
     private static final List<String> list = new ArrayList<>();
 
 
-        public static void split(String text) {
+        public static void unpack(String text) {
 
             String validity = text.replaceAll("[A-Za-z0-9\\[\\]]","");
             String[] strArr = {"\\[", "\\]"};
@@ -27,12 +26,13 @@ public class Unpack {
                 switch (i%2){
                     case 0: while (m.find()){ counterBracket1++; }
                     case 1: while (m.find()){ counterBracket2++; }
-                }
+                }}
                 if (counterBracket1!=counterBracket2){
                     System.out.println("Invalid bracket");
+                    counterBracket1 = 0;counterBracket2 = 0;
                     return;
                 }
-            }
+
             if (validity.length()>0){
                 System.out.println(validity +" Invalid char");
                 return;
@@ -97,10 +97,8 @@ public class Unpack {
                 Matcher matcher = pattern.matcher(text);
                 if (matcher.find()) {
                     list.add(text.substring(matcher.start(), matcher.end()));
-                    System.out.println(list);
-
+                   // System.out.println(list);
                     text = text.replaceFirst("\\d.+?\\].+?\\]","");
-                    //System.out.println(text);
                     count=0;count2=0;
                 }
             }
@@ -109,10 +107,8 @@ public class Unpack {
                 Matcher matcher = pattern.matcher(text);
                 if (matcher.find()) {
                     list.add(text.substring(matcher.start(), matcher.end()));
-                    System.out.println(list);
-
+                    //System.out.println(list);
                     text = text.replaceFirst("\\d.+?\\]","");
-                   // System.out.println(text);
                     count=0;
                 }
             }
@@ -121,18 +117,12 @@ public class Unpack {
                 Matcher matcher = pattern.matcher(text);
                 if (matcher.find()) {
                     list.add(text.substring(matcher.start(), matcher.end()));
-                    System.out.println(list);
-
+                    //System.out.println(list);
                     text = text.replaceFirst("\\D+\\D","");
-
-                    //System.out.println(text);
                     count=0;
-
                 }
             }
-
-            split(text);
-
+            unpack(text);
         }
 
     public static void main(String[] args) {
@@ -142,7 +132,7 @@ public class Unpack {
 
         System.out.println(text + " Original text");
 
-        split(text);
+        unpack(text);
     }
 }
 
